@@ -122,4 +122,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "file", source: "passwd", destination: "passwd"
   config.vm.provision :shell, :path => "setup.sh"
   config.vm.network :forwarded_port, guest:4444, host:4444
+  config.vm.network :forwarded_port, guest:4445, host:4445
+  config.vm.network :forwarded_port, guest:5990, host:5990
+  config.vm.network :forwarded_port, guest:5995, host:5995
 end

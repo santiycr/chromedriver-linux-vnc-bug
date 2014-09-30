@@ -15,7 +15,7 @@ echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/source
 apt-get update
 
 # Install Java, Chrome, Xvfb, and unzip
-apt-get -y install openjdk-7-jre google-chrome-stable tightvncserver unzip
+apt-get -y install openjdk-7-jre google-chrome-stable tightvncserver xvfb x11vnc unzip
 
 # Download and copy the ChromeDriver to /usr/local/bin
 cd /tmp
@@ -33,10 +33,13 @@ cp ~vagrant/passwd /root/.vnc/passwd
 mkdir -p ~vagrant/.vnc
 mv ~vagrant/passwd ~vagrant/.vnc/passwd
 
+
 chown -R vagrant: ~vagrant
 
 sudo -H -u vagrant -- vncserver -geometry 1024x768 :95
+Xvfb :90 -screen 0 1024x768x24 2>&1 >/dev/null &
 
 echo "Starting Selenium ..."
 cd ~vagrant
 su - vagrant -c "export DISPLAY=:95; cd ~vagrant; nohup java -jar selenium-server-standalone.jar &"
+su - vagrant -c "export DISPLAY=:90; cd ~vagrant; nohup java -jar selenium-server-standalone.jar -port 4445 &"
